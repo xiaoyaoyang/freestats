@@ -1,0 +1,8 @@
+export(cost.01)
+export(cost.mse)
+export(cv.work)
+export(fakedata)
+export(perceptrain)
+import(MASS)
+import(ggplot2)
+import(mvtnorm)
