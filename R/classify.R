@@ -1,9 +1,5 @@
 
-
-
-
-
-
+##Generic Fuction of Classify
 #' @title Generic classify function
 #' @aliases classify
 #' @author Xiaoyao Yang
