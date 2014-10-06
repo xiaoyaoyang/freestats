@@ -2,10 +2,10 @@
 #' @title An original perceptron algorithm
 #' @description Train data with perceptron algorithm
 #' @export perceptrain
-#' @return \item{z}{Normal vector of a hyperplane}
+#' @return \item{z}{Normal vector of a hyperplane: z=c(-c,Vh) }
 #' \item{Z_history}{Trajactory of normal vector of a hyperplane}
 #' \item{NumofIteration}{Number of iterations for algorithm}
-#' @author Xiaoyao Yang
+#' @author Xiaoyao Yang. Also, thanks Ran Fu for improving function by introducing matrix computation method.
 #' @details 
 #' S is especially designed for perceptron.
 #' 
@@ -23,29 +23,24 @@
 #' r
 #' 
 
-
-
 perceptrain<-function(S,y,alpha_k=1,endcost=0){
-    d<-dim(S)[2]-1;n<-dim(S)[1]
-    rbind(1,t(S)[1:d,])->x.matrix
-    z<-x.matrix[,2]
-    Z_history<-matrix(0,0,ncol=d+1)
-    
-    NumofIteration=0
-    Cost.gradient=10000
-    while (sum(Cost.gradient^2) > endcost){
-        index1 <- classify.pti(S,z)!=y
-        x.matrix -> cost.temp
-        for (i in 1:n){
-            cost.temp[,i] <- index1[i]*x.matrix[,i]*(-y[i])
-        }
-        Cost.gradient <- apply(cost.temp,MARGIN=1,sum)
-        Z_history <- rbind(Z_history,z)
-        z <- z - alpha_k*Cost.gradient
+    d <- dim(S)[2] - 1
+    n <- dim(S)[1]
+    x.matrix <- cbind(1, S[,1:d])
+    z <- x.matrix[2,]
+    Z_history <- matrix(0, 0, ncol = d + 1)
+    NumofIteration = 0
+    Cost.gradient = 10000
+    while (sum(Cost.gradient^2) > endcost) {
+        y_cost <- classify.pti(S,z) #designed for calculate cost function
+        y_cost[ y_cost==y ] <- 0
+        (Cost.gradient <- colSums(y_cost*x.matrix))  #using matrix computation
+        Z_history <- rbind(Z_history, z)
+        z <- z - alpha_k * Cost.gradient
         NumofIteration <- NumofIteration + 1
     }
-    res <- list(z=z,Z_history=Z_history,NumofIteration=NumofIteration)
-    class(res) <- 'pt'
+    res <- list(z = z, Z_history = Z_history, NumofIteration = NumofIteration)
+    class(res) <- "pt"
     return(res)
 }
 

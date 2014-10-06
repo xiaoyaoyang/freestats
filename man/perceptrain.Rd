@@ -16,7 +16,7 @@ perceptrain(S, y, alpha_k = 1, endcost = 0)
   function}
 }
 \value{
-\item{z}{Normal vector of a hyperplane}
+\item{z}{Normal vector of a hyperplane: z=c(-c,Vh) }
 \item{Z_history}{Trajactory of normal vector of a
 hyperplane} \item{NumofIteration}{Number of iterations for
 algorithm}
@@ -37,6 +37,7 @@ r <- perceptrain(S=mydata$S,y=mydata$y,alpha_k=1,endcost=0)
 r
 }
 \author{
-Xiaoyao Yang
+Xiaoyao Yang. Also, thanks Ran Fu for improving function by
+introducing matrix computation method.
 }
 
